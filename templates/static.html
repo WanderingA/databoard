@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>统计分析界面</title>
+    <link rel="stylesheet" href="../static/css/base.css">
+</head>
+<body>
+<!--顶部-->
+<header class="header left">
+    <div class="left nav">
+        <ul>
+            <li><i class="nav_1"></i><a href="/">数据概览</a></li>
+            <li><i class="nav_5"></i><a href="/node-control">节点设置</a></li>
+        </ul>
+    </div>
+    <div class="header_center left">
+        <h2><strong>长春xxxxxx</strong></h2>
+        <p class="color_font"><small>Chang chun xxxxxxxx</small></p>
+    </div>
+    <div class="right nav text_right">
+        <ul>
+            <li><i class="nav_3"></i><a href="/map">地图界面</a></li>
+            <li class="nav_active"><i class="nav_7"></i><a href="/statistics">查询统计</a></li>
+        </ul>
+    </div>
+</header>
+
+<!--内容部分-->
+<div class="con left">
+    <!--选择时间-->
+    <div class="static_top left">
+        <i></i><span>统计概况</span>
+    </div>
+    <!--数据总概-->
+    <div class="stiatic_top_con left">
+        <table>
+            <tr>
+                <td class="labe_td">总概：</td>
+                <td colspan="3" class="sky">拥有节点387台</td>
+            </tr>
+            <tr>
+                <td class="labe_td">新增节点：</td>
+                <td>37台</td>
+                <td class="labe_td">故障节点：</td>
+                <td class="org">37台</td>
+            </tr>
+            <tr>
+                <td class="labe_td">关机节点：</td>
+                <td class="red">3台</td>
+                <td class="labe_td">总节点：</td>
+                <td>387台</td>
+            </tr>
+        </table>
+
+    </div>
+    <!--统计分析图-->
+    <div class="static_top left">
+        <i></i><span>统计分析一</span>
+    </div>
+    <div class="div_static_any">
+        <div class="left div_any03">
+            <div class="div_any_child01 left">
+                <div class="div_any_title"><img src="../static/img/title_1.png">报警类型统计 </div>
+                <p id="char1" class="p_chart"></p>
+                <div class="char_table"><div class="table_p table_p01">
+                    <table>
+                        <thead><tr>
+                            <th>排名</th>
+                            <th>类别</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td>1</td><td>人</td><td>231</td></tr>
+                        <tr><td>2</td><td>汽车</td><td>132</td></tr>
+                        <tr><td>3</td><td>履带车</td><td>13</td></tr>
+                        <tr><td>4</td><td>飞行器</td><td>3</td></tr>
+                        </tbody>
+                    </table>
+                </div></div>
+
+            </div>
+            <div class="div_any_child01 left">
+                <div class="div_any_title"><img src="../static/img/title_2.png">节点状态统计 </div>
+                <p id="char2" class="p_chart"></p>
+                <div class="char_table"><div class="table_p table_p01">
+                    <table>
+                        <thead><tr>
+                            <th>序号</th>
+                            <th>状态</th>
+                            <th>数量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr><td>1</td><td>无异常</td><td>350</td></tr>
+                        <tr><td>2</td><td>角度倾斜</td><td>3</td></tr>
+                        <tr><td>3</td><td>GPS定位失败</td><td>5</td></tr>
+                        <tr><td>4</td><td>电量过低</td><td>10</td></tr>
+                        <tr><td>5</td><td>空间不足</td><td>0</td></tr>
+                        <tr><td>6</td><td>检波器异常</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="../static/js/echarts-all.js"></script>
+<script src="../static/js/base.js"></script>
+<script src="../static/js/static.js"></script>
+
+</body>
+</html>

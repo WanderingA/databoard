@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>节点设置</title>
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link href="../static/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../static/js/bstable/css/bootstrap.min.css">
+    <style>
+        h2{
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            text-indent:3%;
+        }
+        label{
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+        textarea{
+            width: 98%;
+            height:150px;
+            resize:none;
+        }
+        .dropdown{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<style>
+
+</style>
+<body>
+<!--顶部-->
+<header class="header left">
+    <div class="left nav">
+        <ul>
+            <li><i class="nav_1"></i><a href="/">数据概览</a></li>
+            <li class="nav_active"><i class="nav_5"></i><a href="/node-control">节点设置</a></li>
+        </ul>
+    </div>
+    <div class="header_center left">
+        <h2><strong>长春xxxxxx</strong></h2>
+        <p class="color_font"><small>Chang chun xxxxxxxx</small></p>
+    </div>
+    <div class="right nav text_right">
+        <ul>
+            <li><i class="nav_3"></i><a href="/map">地图界面</a></li>
+            <li><i class="nav_7"></i><a href="/statistics">查询统计</a></li>
+        </ul>
+    </div>
+</header>
+
+<!--内容部分-->
+<div class="con left ">
+    <div class="node_any">
+        <div class="left div_any01">
+            <div class="div_any_child ">
+                <div class="div_any_title"><img src="../static/img/title_1.png">电量 </div>
+                <p id="char1" class="p_chart chart_container"></p>
+            </div>
+            <div class="div_any_child">
+                <div class="div_any_title"><img src="../static/img/title_2.png">剩余空间 </div>
+                <p id="char2" class="p_chart chart_container"></p>
+            </div>
+        </div>
+        <div class="node_any02 left">
+<!--            <div class="div_node_child">-->
+<!--                <div class="div_any_title any_title_width"><img src="../static/img/title_3.png">波形</div>-->
+<!--                <div id="char3" class="node_chart right"></div>-->
+<!--            </div>-->
+            <div class="div_node_child">
+                <div class="div_any_title any_title_width"><img src="../static/img/title_3.png">状态信息</div>
+                <div class="div_table_child_2">
+                    <div class="table_t">
+                        <div class="table_head">
+                            <table class="table-striped">
+                                <thead>
+                                <tr>
+                                    <th>节点ID</th>
+                                    <th>状态</th>
+                                    <th>经度</th>
+                                    <th>纬度</th>
+                                    <th>电量</th>
+                                    <th>已用空间</th>
+                                    <th>GPS</th>
+                                    <th>检波器</th>
+                                    <th>角度</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table_body">
+                            <table class="table-striped">
+                                <tbody>
+                                <tr><td>1</td><td>正常</td><td>134.232</td><td>98.412</td><td>83</td><td>50</td><td>正常</td><td>正常</td><td>正常</td></tr>
+                                <tr><td>2</td><td>异常</td><td>134.232</td><td>98.412</td><td>83</td><td>50</td><td>正常</td><td>正常</td><td>倾斜</td></tr>
+                                <tr><td>3</td><td>异常</td><td>134.232</td><td>98.412</td><td>83</td><td>50</td><td>正常</td><td>异常</td><td>正常</td></tr>
+                                <tr><td>4</td><td>正常</td><td>134.232</td><td>98.412</td><td>83</td><td>50</td><td>正常</td><td>正常</td><td>正常</td></tr>
+                                <tr><td>5</td><td>正常</td><td>134.232</td><td>98.412</td><td>83</td><td>50</td><td>正常</td><td>正常</td><td>正常</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right node_any01">
+            <div class="node_any_child">
+                <div class="div_any_title"><img src="../static/img/title_4.png">命令设置</div>
+                <div class="div_node_child01">
+                    <div class="all_left">
+                        <h2>tcp:</h2>
+                        <button onclick="connect()" class="btn btn-primary">连接</button>
+                        <button onclick="disconnect()" class="btn btn-primary">断开连接</button>
+                    </div>
+                    <div class="scrollable-div">
+                        <h2>选择节点:</h2>
+                        <div class="all_left">
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 001</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 002</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 003</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 004</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 005</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 006</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 007</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 008</button>
+                            <button type="button" class="btn btn-primary btn-lg my_bb">node 009</button>
+                        </div>
+                    </div>
+                    <h2>设置：</h2>
+<!--                    <div class="dropdown all_left">-->
+<!--                        <label for="node-select">选择节点:</label>-->
+<!--                        <select id="node-select">-->
+<!--                            <option value="">&#45;&#45; 选择节点 &#45;&#45;</option>-->
+
+<!--                        </select>-->
+<!--                    </div>-->
+                    <div class="dropdown all_left">
+                        <label for="command1-select">全局功率设置:</label>
+                        <select id="command1-select">
+                            <option value="">-- 选择功率 --</option>
+                            <option value="command1">6dBm</option>
+                            <option value="command2">9dBm</option>
+                            <option value="command3">13dBm</option>
+                            <option value="command4">20dBm</option>
+                        </select>
+                    </div>
+<!--                    <div class="dropdown all_left">-->
+<!--                        <label for="command2-select">设置信道:</label>-->
+<!--                        <select id="command2-select">-->
+<!--                            <option value="">&#45;&#45; 选择信道 &#45;&#45;</option>-->
+<!--                            <option value="command1">0x0B</option>-->
+<!--                            <option value="command2">0x0D</option>-->
+<!--                            <option value="command3">0x13</option>-->
+<!--                            <option value="command4">0x17</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+                    <div>
+                        <button onclick="sendMessage()" class="btn btn-primary center-block">发送</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>
+<script src="../static/js/echarts-all.js"></script>
+<script src="../static/js/base.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+<script src="../static/js/node_control.js"></script>
+<script src="../static/js/ztree/jquery.ztree.all-3.5.js"></script>
+<script src="../static/js/bstable/js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>
