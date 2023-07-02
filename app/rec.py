@@ -134,7 +134,7 @@ class Server:
                 print(f"{address[0]}:{address[1]}断开连接")
                 break
 
-            data = client_socket.recv(1024).decode('utf-8')
+            data = client_socket.recv(1024).decode()
             if not data:
                 print(f"{address[0]}:{address[1]}断开连接")
                 break
