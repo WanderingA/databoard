@@ -16,7 +16,8 @@ def analyze_data(data):
     gps_state = "正常" if flags & 0x40 else "异常"
     detector_state = "正常" if flags & 0x20 else "异常"
     angle = "正常" if flags & 0x10 else "倾斜"
-
+    if gps_state == "异常" or detector_state == "异常" or angle == "倾斜":
+        seismic_state = "异常"
     arr1 = bytearray.fromhex(data[22:30])
     converted_int1 = (0xff000000 & (arr1[3] << 24)) | (0x00ff0000 & (arr1[2] << 16)) | (
         0x0000ff00 & (arr1[1] << 8)) | (0x000000ff & arr1[0])
@@ -100,12 +101,16 @@ class Server:
     def handle_classifications_data(self, data, address):
         try:
             timestamp_data = datetime.datetime.now()
-            prediction = int.from_bytes(data, byteorder='big')
+            #print("接收到的字节串:", data)  # 调试输出
+            # prediction = int.from_bytes(data, byteorder='big')
+            prediction = int.from_bytes(data, byteorder='little', signed=False)  # 修改此行
+            #print("转换后的预测结果:", prediction)  # 调试输出
             prediction_label = self.class_labels[prediction]
             node_id = self.get_node_id_from_address(address)
             self.insert_classifications_data(node_id, timestamp_data, prediction_label)
         except IndexError:
-            print("接收到的数据越界：", data)
+            # print("接收到的数据越界：", data)
+            pass
         except Exception as e:
             print(f"解析接收到的数据时出错: {e}")
 
@@ -176,6 +181,24 @@ class Database:
     def get_node_data(self):
         try:
             query = "SELECT * FROM nodes"
+            with mysql.connector.connect(**self.db_config) as db_connection:
+                with db_connection.cursor() as db_cursor:
+                    db_cursor.execute(query)
+                    result = db_cursor.fetchall()
+                    return result
+        except mysql.connector.Error as e:
+            print("数据库查询错误:", str(e))
+            return []
+
+    def get_node_number(self):
+        try:
+            query = """
+            SELECT
+                COUNT(*) AS total_nodes,
+                COUNT(CASE WHEN `seismic_state` = '正常' THEN 1 END) AS normal_nodes
+            FROM
+                `nodes`
+            """
             with mysql.connector.connect(**self.db_config) as db_connection:
                 with db_connection.cursor() as db_cursor:
                     db_cursor.execute(query)

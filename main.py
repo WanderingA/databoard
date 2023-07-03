@@ -3,6 +3,7 @@ from fastapi import FastAPI, WebSocket, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from app.models import Server as tcp_data, Database
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # MySQL数据库连接配置
@@ -22,16 +23,29 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 server = tcp_data(host, port, db_config)
 database = Database(db_config)
 
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    # 添加允许访问的前端地址
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 def get_index(request: Request):
-    # username = request.cookies.get("username")  # 从Cookie中获取用户名
-    return templates.TemplateResponse("index.html", {"request": request})
+    node_number = database.get_node_number()
+    return templates.TemplateResponse("index.html", {"request": request, "node_number": node_number})
 
 
 @app.get("/node-control")
 def get_node_control(request: Request):
     node_data = database.get_node_data()
-    print(node_data[0][0])
     return templates.TemplateResponse("NodeContrl.html", {"request": request, "node_data": node_data})
 
 

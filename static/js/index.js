@@ -2,7 +2,6 @@ $(function () {
     char1();
     char2();
     char3();
-    char4();
 });
 
 // 统计分析图
@@ -138,128 +137,128 @@ function char2() {
     });
 }
 
+// function char3() {
+//     var myChart = echarts.init(document.getElementById("char3"));
+//
+//     var data = [
+//         ["2023-06-01 00:00:00", 0],
+//         ["2023-06-01 01:00:00", 15],
+//         ["2023-06-01 02:00:00", 20],
+//         ["2023-06-01 03:00:00", 45],
+//         ["2023-06-01 04:00:00", 50],
+//         ["2023-06-01 05:00:00", 55],
+//         ["2023-06-01 06:00:00", 60],
+//         ["2023-06-01 07:00:00", 65],
+//         ["2023-06-01 08:00:00", 88],
+//         ["2023-06-01 09:00:00", 90],
+//         ["2023-06-01 10:00:00", 95],
+//         ["2023-06-01 11:00:00", 100],
+//         ["2023-06-01 12:00:00", 105],
+//         ["2023-06-01 13:00:00", 110],
+//         ["2023-06-01 14:00:00", 115],
+//         ["2023-06-01 15:00:00", 120],
+//         ["2023-06-01 16:00:00", 125],
+//         ["2023-06-01 17:00:00", 130],
+//         ["2023-06-01 18:00:00", 135],
+//         ["2023-06-01 19:00:00", 140],
+//         ["2023-06-01 20:00:00", 145],
+//         ["2023-06-01 21:00:00", 150],
+//         ["2023-06-01 22:00:00", 155],
+//         ["2023-06-01 23:00:00", 160],
+//     ];
+//
+//     var option = {
+//         grid: {
+//             show: true,
+//             borderWidth: 0,
+//         },
+//         tooltip: {
+//             trigger: "axis",
+//             showDelay: 20,
+//             axisPointer: {
+//                 type: "line",
+//                 axis: "x",
+//                 animation: false,
+//             },
+//             formatter: function (params) {
+//                 var time = new Date(params[0].value[0]);
+//                 var count = params[0].value[1];
+//                 return "日期: " + time.toLocaleString() + "<br/>数量: " + count;
+//             },
+//         },
+//         xAxis: {
+//             type: "time",
+//             axisLabel: {
+//                 show: true,
+//                 textStyle: {
+//                     color: "#fff",
+//                 },
+//             },
+//             splitLine: {
+//                 show: false,
+//             },
+//             axisPointer: {
+//                 label: {
+//                     formatter: function (params) {
+//                         var time = new Date(params.value);
+//                         return echarts.format.formatTime("yyyy-MM-dd HH:mm:ss", time);
+//                     },
+//                 },
+//             },
+//         },
+//         yAxis: {
+//             type: "value",
+//             axisLabel: {
+//                 show: true,
+//                 textStyle: {
+//                     color: "#fff",
+//                 },
+//             },
+//             splitLine: {
+//                 show: false,
+//             },
+//         },
+//         dataZoom: [
+//             {
+//                 type: "slider",
+//                 start: 100 - Math.floor((data.length / 12) * 100), // 计算初始的dataZoom范围
+//                 end: 100,
+//                 filterMode: "empty",
+//                 handleSize: "80%", // 设置滑块的大小
+//                 handleStyle: {
+//                     color: "#fff", // 滑块的颜色
+//                 },
+//                 textStyle: {
+//                     color: "#fff", // 文本颜色
+//                 },
+//             },
+//         ],
+//         series: [
+//             {
+//                 name: "报警数",
+//                 type: "line",
+//                 smooth: true,
+//                 itemStyle: {
+//                     normal: {
+//                         lineStyle: {
+//                             shadowColor: "rgba(0, 0, 0, 0.4)",
+//                         },
+//                     },
+//                 },
+//                 data: data,
+//             },
+//         ],
+//     };
+//
+//
+//     myChart.setOption(option);
+//     window.addEventListener("resize", function () {
+//         myChart.resize();
+//     });
+// }
+
 function char3() {
     var myChart = echarts.init(document.getElementById("char3"));
-
-    var data = [
-        ["2023-06-01 00:00:00", 0],
-        ["2023-06-01 01:00:00", 15],
-        ["2023-06-01 02:00:00", 20],
-        ["2023-06-01 03:00:00", 45],
-        ["2023-06-01 04:00:00", 50],
-        ["2023-06-01 05:00:00", 55],
-        ["2023-06-01 06:00:00", 60],
-        ["2023-06-01 07:00:00", 65],
-        ["2023-06-01 08:00:00", 88],
-        ["2023-06-01 09:00:00", 90],
-        ["2023-06-01 10:00:00", 95],
-        ["2023-06-01 11:00:00", 100],
-        ["2023-06-01 12:00:00", 105],
-        ["2023-06-01 13:00:00", 110],
-        ["2023-06-01 14:00:00", 115],
-        ["2023-06-01 15:00:00", 120],
-        ["2023-06-01 16:00:00", 125],
-        ["2023-06-01 17:00:00", 130],
-        ["2023-06-01 18:00:00", 135],
-        ["2023-06-01 19:00:00", 140],
-        ["2023-06-01 20:00:00", 145],
-        ["2023-06-01 21:00:00", 150],
-        ["2023-06-01 22:00:00", 155],
-        ["2023-06-01 23:00:00", 160],
-    ];
-
-    var option = {
-        grid: {
-            show: true,
-            borderWidth: 0,
-        },
-        tooltip: {
-            trigger: "axis",
-            showDelay: 20,
-            axisPointer: {
-                type: "line",
-                axis: "x",
-                animation: false,
-            },
-            formatter: function (params) {
-                var time = new Date(params[0].value[0]);
-                var count = params[0].value[1];
-                return "日期: " + time.toLocaleString() + "<br/>数量: " + count;
-            },
-        },
-        xAxis: {
-            type: "time",
-            axisLabel: {
-                show: true,
-                textStyle: {
-                    color: "#fff",
-                },
-            },
-            splitLine: {
-                show: false,
-            },
-            axisPointer: {
-                label: {
-                    formatter: function (params) {
-                        var time = new Date(params.value);
-                        return echarts.format.formatTime("yyyy-MM-dd HH:mm:ss", time);
-                    },
-                },
-            },
-        },
-        yAxis: {
-            type: "value",
-            axisLabel: {
-                show: true,
-                textStyle: {
-                    color: "#fff",
-                },
-            },
-            splitLine: {
-                show: false,
-            },
-        },
-        dataZoom: [
-            {
-                type: "slider",
-                start: 100 - Math.floor((data.length / 12) * 100), // 计算初始的dataZoom范围
-                end: 100,
-                filterMode: "empty",
-                handleSize: "80%", // 设置滑块的大小
-                handleStyle: {
-                    color: "#fff", // 滑块的颜色
-                },
-                textStyle: {
-                    color: "#fff", // 文本颜色
-                },
-            },
-        ],
-        series: [
-            {
-                name: "报警数",
-                type: "line",
-                smooth: true,
-                itemStyle: {
-                    normal: {
-                        lineStyle: {
-                            shadowColor: "rgba(0, 0, 0, 0.4)",
-                        },
-                    },
-                },
-                data: data,
-            },
-        ],
-    };
-
-
-    myChart.setOption(option);
-    window.addEventListener("resize", function () {
-        myChart.resize();
-    });
-}
-
-function char4() {
-    var myChart = echarts.init(document.getElementById("char4"));
 
     var option = {
         grid: {

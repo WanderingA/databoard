@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>首页界面</title>
     <link rel="stylesheet" href="../static/css/base.css">
-
+    <link rel="stylesheet" href="../static/js/bstable/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=WZ0A9ap4bojUPbNWBsGHcClAqwy8n242"></script>
 </head>
 <body>
 <!--顶部-->
@@ -37,20 +38,26 @@
     <!--数据总概-->
     <div class="con_div">
         <div class="con_div_text left">
+
             <div class="con_div_text01 left">
                 <img src="../static/img/info_1.png" class="left text01_img">
                 <div class="left text01_div">
                     <p>接入节点</p>
-                    <p>12356</p>
+                    {% for number in node_number %}
+                    <p>{{number[0]}}</p>
+                    {% endfor %}
                 </div>
             </div>
             <div class="con_div_text01 right">
                 <img src="../static/img/info_1.png" class="left text01_img">
                 <div class="left text01_div">
-                    <p>正在运行</p>
-                    <p>12356</p>
+                    <p>正常运行</p>
+                    {% for number in node_number %}
+                    <p>{{number[1]}}</p>
+                    {% endfor %}
                 </div>
             </div>
+
         </div>
         <div class="con_div_text left">
             <div class="con_div_text01 left">
@@ -70,18 +77,31 @@
         </div>
         <div class="con_div_text left">
 
-            <div class="con_div_text01 left">
+            <div class="con_time left">
                 <img src="../static/img/info_6.png" class="left text01_img">
-                <div class="left text01_div">
-                    <p>运行时长(s)</p>
-                    <p class="org">12356</p>
-                </div>
-            </div>
-            <div class="con_div_text01 right">
-                <img src="../static/img/info_7.png" class="left text01_img">
-                <div class="left text01_div">
-                    <p>平均时长(s)</p>
-                    <p class="org">11234</p>
+                <div class="left time_div">
+                    <!--                    <p>运行时长(s)</p>-->
+                    <!--                    <p class="org">12356</p>-->
+
+                    <p id="time"></p>
+                    <script>
+                        function getTime(){
+                            var data = new Date();
+                            var year = data.getFullYear();
+                            var month = data.getMonth()+1;
+                            var day = data.getDate();
+                            var hour = data.getHours();
+                            hour = hour<10?"0"+hour:hour;
+                            var minute = data.getMinutes();
+                            minute = minute<10?"0"+minute:minute;
+                            var second = data.getSeconds();
+                            second = second<10?"0"+second:second;
+                            return year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+                        }
+                        setInterval(function(){
+                            document.getElementById("time").innerHTML = getTime();
+                        },1000);
+                    </script>
                 </div>
             </div>
         </div>
@@ -105,13 +125,21 @@
             </div>
         </div>
         <div class="right div_any01">
-            <div class="div_any_child">
-                <div class="div_any_title"><img src="../static/img/title_4.png">报警 </div>
-                <p id="char3" class="p_chart chart_container"></p>
+            <div class="div_any_child03">
+                <div class="div_any_title"><img src="../static/img/title_4.png">硬件设备展示 </div>
+                <div class="button-container">
+                    <div class="btn btn-primary my_bb1" id="button1" onmouseover="showImageAndText(1)" onmouseout="hideImageAndText(1)">无线节点地震仪</div>
+                    <div class="btn btn-primary my_bb1" id="button2" onmouseover="showImageAndText(2)" onmouseout="hideImageAndText(2)">无线节点地震仪</div>
+                    <div class="btn btn-primary my_bb1" id="button3" onmouseover="showImageAndText(3)" onmouseout="hideImageAndText(3)">无线节点地震仪</div>
+                    <div class="btn btn-primary my_bb1" id="button4" onmouseover="showImageAndText(4)" onmouseout="hideImageAndText(4)">无线节点地震仪</div>
+                </div>
+                <div id="imageAndTextContainer">
+                    <!-- 这里将显示图片和介绍 -->
+                </div>
             </div>
             <div class="div_any_child">
                 <div class="div_any_title"><img src="../static/img/title_5.png">报警数量统计 </div>
-                <p id="char4" class="p_chart chart_container"></p>
+                <p id="char3" class="p_chart chart_container"></p>
             </div>
         </div>
     </div>
@@ -121,8 +149,51 @@
 <script src="../static/js/base.js"></script>
 <script src="../static/js/index.js"></script>
 <!-- 百度地图api -->
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>-->
 <script src="../static/js/map.js"></script>
+<script>
+    function showImageAndText(buttonNumber) {
+        var imageAndTextContainer = document.getElementById("imageAndTextContainer");
+        var image = "";
+        var text = "";
+
+        switch (buttonNumber) {
+            case 1:
+                image = "../static/img/title_5.png";
+                text = "无线节点地震仪";
+                break;
+            case 2:
+                image = "../static/img/title_2.png";
+                text = "无线节点地震仪";
+                break;
+            case 3:
+                image = "../static/img/title_3.png";
+                text = "无线节点地震仪";
+                break;
+            case 4:
+                image = "../static/img/title_4.png";
+                text = "无线节点地震仪";
+                break;
+            default:
+                image = "";
+                text = "";
+        }
+
+        imageAndTextContainer.innerHTML = `
+       <div class="image-text-container">
+       <img src="${image}" alt="图片">
+      <p>${text}</p>
+</div>
+
+    `;
+    }
+
+    function hideImageAndText() {
+        var imageAndTextContainer = document.getElementById("imageAndTextContainer");
+        imageAndTextContainer.innerHTML = "";
+    }
+</script>
 
 
 </body>

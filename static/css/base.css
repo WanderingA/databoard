@@ -249,6 +249,10 @@ a:hover{
     width: 50%;
     height: 100%;
 }
+.con_time{
+    width: 100%;
+    height: 100%;
+}
 .text01_img{
     width: 40px;
     height: 40px;
@@ -273,6 +277,21 @@ a:hover{
     color: #ffff43;
     font-weight: 600;
 
+}
+.time_div{
+    margin-top: 15px;
+    margin-left: 5%;
+    text-align: center;
+}
+.time_div p{
+    line-height: 35px;
+}
+
+.time_div p:nth-child(1){
+    font-size: 28px;
+    color: #ffffff;
+    font-weight: 600;
+    margin-top: 20px;
 }
 .red{
     color: red !important;
@@ -342,6 +361,20 @@ a:hover{
     position: relative;
     margin-top: 20px;
 }
+
+.div_any_child03 {
+    width: 100%;
+    height: 400px;
+    box-shadow: -10px 0px 15px #034c6a inset,
+    0px -10px 15px #034c6a inset,
+    10px 0px 15px #034c6a inset,
+    0px 10px 15px #034c6a inset;
+    border: 1px solid #034c6a;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 20px;
+}
+
 .div_node_child{
     display: flex;
     flex-direction: column;
@@ -524,10 +557,10 @@ a:hover{
     position: relative;
 }
 .table_p01{
-     height:auto !important;
-     margin-top: 0!important;
-     position: relative;
- }
+    height:auto !important;
+    margin-top: 0!important;
+    position: relative;
+}
 .table_p01 table td{
     padding: 6px 0;
 }
@@ -1195,4 +1228,31 @@ a:hover{
 .scrollable-div {
     height: 60%;
     overflow: auto;
+}
+
+
+/* 硬件设备展示start--- */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center;
+}
+.image-text-container {
+  text-align: center;
+}
+
+#imageAndTextContainer p {
+  color: #FFFFff; /* 文本颜色 */
+  font-size: 20px; /* 字体大小 */
+}
+/*.button {*/
+/*  width: 100px;*/
+/*  height: 100px;*/
+/*  cursor: pointer;*/
+/*  border: 1px solid #ccc;*/
+/*}*/
+.my_bb1{
+    margin-top: 25px;
+    margin-right: 0px;
 }
