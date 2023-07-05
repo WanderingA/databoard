@@ -20,12 +20,12 @@ def analyze_data(data):
         seismic_state = "异常"
     arr1 = bytearray.fromhex(data[22:30])
     converted_int1 = (0xff000000 & (arr1[3] << 24)) | (0x00ff0000 & (arr1[2] << 16)) | (
-        0x0000ff00 & (arr1[1] << 8)) | (0x000000ff & arr1[0])
+            0x0000ff00 & (arr1[1] << 8)) | (0x000000ff & arr1[0])
     longitude = struct.unpack('!f', struct.pack('!I', converted_int1))[0]
 
     arr2 = bytearray.fromhex(data[30:38])
     converted_int2 = (0xff000000 & (arr2[3] << 24)) | (0x00ff0000 & (arr2[2] << 16)) | (
-        0x0000ff00 & (arr2[1] << 8)) | (0x000000ff & arr2[0])
+            0x0000ff00 & (arr2[1] << 8)) | (0x000000ff & arr2[0])
     latitude = struct.unpack('!f', struct.pack('!I', converted_int2))[0]
 
     energy = ((0x38 & int(data[40:42], 16)) >> 3) * 100 / 8
@@ -58,8 +58,8 @@ class Server:
 
     def connect_to_database(self):
         self.db_connection_pool = mysql.connector.pooling.MySQLConnectionPool(pool_name="my_pool",
-                                                                             pool_size=10,
-                                                                             **self.db_config)
+                                                                              pool_size=10,
+                                                                              **self.db_config)
 
     def insert_node_data(self, node_data):
         try:
@@ -208,10 +208,67 @@ class Database:
             print("数据库查询错误:", str(e))
             return []
 
+    def get_classification_node_number(self):
+        try:
+            query = """
+            SELECT classification, COUNT(DISTINCT node_id) AS count
+            FROM node_classifications
+            WHERE classification IN ('Human', 'Tracked', 'Wheeled', 'Aircraft')
+            GROUP BY classification;
+            """
+            with mysql.connector.connect(**self.db_config) as db_connection:
+                with db_connection.cursor() as db_cursor:
+                    db_cursor.execute(query)
+                    result = db_cursor.fetchall()
+                    return result
+        except mysql.connector.Error as e:
+            print("数据库查询错误:", str(e))
+            return []
+
+    def get_node_status(self):
+        try:
+            query = """
+            SELECT 
+            COUNT(CASE WHEN seismic_state = '正常' THEN 1 END) AS seismic_state_normal_count,
+            COUNT(CASE WHEN gps_state <> '正常' THEN 1 END) AS gps_state_abnormal_count,
+            COUNT(CASE WHEN detector_state <> '正常' THEN 1 END) AS detector_state_abnormal_count,
+            COUNT(CASE WHEN angle <> '正常' THEN 1 END) AS angle_tilted_count
+            FROM nodes;
+            """
+            with mysql.connector.connect(**self.db_config) as db_connection:
+                with db_connection.cursor() as db_cursor:
+                    db_cursor.execute(query)
+                    result = db_cursor.fetchall()
+                    return result
+        except mysql.connector.Error as e:
+            print("数据库查询错误:", str(e))
+            return []
+
+    def get_allnode_info(self):
+        try:
+            query = """
+            SELECT nc.node_id, nc.classification, n.longitude, n.latitude, nc.timestamp
+            FROM node_classifications nc
+            JOIN nodes n ON nc.node_id = n.Id
+            JOIN (
+                SELECT node_id, MAX(timestamp) AS max_timestamp
+                FROM node_classifications
+                GROUP BY node_id
+            ) t ON nc.node_id = t.node_id AND nc.timestamp = t.max_timestamp;
+            """
+            with mysql.connector.connect(**self.db_config) as db_connection:
+                with db_connection.cursor() as db_cursor:
+                    db_cursor.execute(query)
+                    result = db_cursor.fetchall()
+                    return result
+        except mysql.connector.Error as e:
+            print("数据库查询错误:", str(e))
+            return []
+
 
 # 创建服务器对象并启动服务器
 if __name__ == "__main__":
-    host = "192.168.1.109"  # 服务器主机地址
+    host = "0.0.0.0"  # 服务器主机地址
     port = 8888  # 服务器端口
     # MySQL数据库连接配置
     db_config = {

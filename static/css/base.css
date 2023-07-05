@@ -918,13 +918,13 @@ a:hover{
     background-color: #081832cc;
 }
 .map_left{
-    width: 79%;
+    width: 70%;
     height: 100%;
 
 
 }
 .map_right{
-    width: 20.5%;
+    width: 30%;
     height: 100%;
     background-color: #081832;
 }

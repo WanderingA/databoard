@@ -1,167 +1,80 @@
-$(function(){
+// 页面加载完成后执行初始化地图操作
+$(function () {
     getHt();
     initMap();
-    mapActive();
-    char1();
-    page();
-    mapRestList();
-    rightChange();
-})
-//获取div的高度
-function getHt(){
-   var all_height=$(window).height();
-   var div_height=all_height-84;
-    $("#car_control").css("height",div_height+"px");
+    setInterval(initMap, 60000);
+});
 
+markers = [];
+map = null;
 
+function getHt() {
+    var all_height = $(window).height();
+    var div_height = all_height - 84;
+    $("#car_control").css("height", div_height + "px");
+    $("#map_box").css("height", div_height + "px");
 }
-//加载地图
-function initMap(){
-// 百度地图API功能
-    var map = new BMap.Map("map_box");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(125.335116, 43.825), 11);  // 初始化地图,设置中心点坐标和地图级别
-    //添加地图类型控件
+
+
+function initMap() {
+    map = new BMap.Map("map_box");
+    // var point = new BMap.Point(convertCoordinate(125.30078125,43.87986755));  // 初始化地图中心点
+    var convertor = new BMap.Convertor();
+    var point = new BMap.Point(125.30078125, 43.87986755);
+    var convertCallback = function (data) {
+        if (data.status === 0) {
+            var baiduLng = data.points[0].lng;
+            var baiduLat = data.points[0].lat;
+            // 在这里可以使用转换后的百度坐标进行其他操作
+            map.centerAndZoom(new BMap.Point(baiduLng, baiduLat), 17);
+            // console.log('转换后的百度坐标（BD-09）:', baiduLng, baiduLat);
+        }
+    };
+    convertor.translate([point], 1, 5, convertCallback);
+    // map.centerAndZoom(point, 17);  // 初始化地图缩放级别
+    map.enableScrollWheelZoom(true);  // 启用鼠标滚轮缩放
+
+    // 添加地图类型控件
     var size1 = new BMap.Size(10, 50);
     map.addControl(new BMap.MapTypeControl({
         offset: size1,
-        mapTypes:[
+        mapTypes: [
             BMAP_NORMAL_MAP,
-            BMAP_HYBRID_MAP,
-
-        ]}));
-    // 编写自定义函数,创建标注
-    function addMarker(point){
-        var marker = new BMap.Marker(point);
-        map.addOverlay(marker);
-    }
-    // 随机向地图添加25个标注
-    var bounds = map.getBounds();
-    var sw = bounds.getSouthWest();
-    var ne = bounds.getNorthEast();
-    var lngSpan = Math.abs(sw.lng - ne.lng);
-    var latSpan = Math.abs(ne.lat - sw.lat);
-    for (var i = 0; i < 25; i ++) {
-        var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
-        addMarker(point);
-    };
-
-    map.setCurrentCity("长春市");          // 设置地图显示的城市 此项是必须设置的
-    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-    ////设备地图颜色
-    //var mapStyle={
-    //    style:"midnight"
-    //};
-    //map.setMapStyle(mapStyle);
-
-
-
-
-
-//加载城市控件
-    var size = new BMap.Size(10, 50);
-    map.addControl(new BMap.CityListControl({
-        anchor: BMAP_ANCHOR_TOP_LEFT,
-        offset: size,
-
-
-    }));
-}
-//工具条点击效果
-function mapActive(){
-    $(".map_top>ul>li").click(function(){
-        $(this).addClass("active").siblings().removeClass("active");
-        $(this).find("a").addClass("active");
-        $(this).find("a").parents("li").siblings().find("a").removeClass("active");
-    })
-}
-//统计分析图
-function char1() {
-
-    var myChart = echarts.init($("#char1")[0]);
-
-    option = {
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient : 'vertical',
-            x : 'right',
-            textStyle : {
-                color : '#ffffff',
-
-            },
-            data: ["人", "汽车", "履带车", "飞行器"],
-        },
-
-        calculable : false,
-        series : [
-            {
-                name:'类型',
-                type:'pie',
-                radius : ['40%', '70%'],
-                itemStyle : {
-                    normal : {
-                        label : {
-                            show : false
-                        },
-                        labelLine : {
-                            show : false
-                        }
-                    },
-                    emphasis : {
-                        label : {
-                            show : true,
-                            position : 'center',
-                            textStyle : {
-                                fontSize : '20',
-                                fontWeight : 'bold'
-                            }
-                        }
-                    }
-                },
-                data:[
-                    {value:335, name:'人'},
-                    {value:310, name:'汽车'},
-                    {value:234, name:'履带车'},
-                    {value:135, name:'飞行器'}
-
-                ]
-            }
+            BMAP_HYBRID_MAP
         ]
-    };
-
-    myChart.setOption(option);
-    window.addEventListener('resize', function () {myChart.resize();})
-
-}
-function page(){
-    $("#page").Page({
-        totalPages: 9,//分页总数
-        liNums: 1,//分页的数字按钮数(建议取奇数)
-        activeClass: 'activP', //active 类样式定义
-        callBack : function(page){
-            //console.log(page)
+    }));
+    $.ajax({
+        url: "/get_table_data",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            data[0].forEach(function (item) {
+                var point = new BMap.Point(item[2], item[3]);
+                var convertCallback = function (data) {
+                    if (data.status === 0) {
+                        var baiduLng = data.points[0].lng;
+                        var baiduLat = data.points[0].lat;
+                        var points = new BMap.Point(baiduLng, baiduLat);
+                        addMarker(points, item[1]);
+                        // console.log('转换后的百度坐标（BD-09）:', baiduLng, baiduLat);
+                    }
+                };
+                convertor.translate([point], 1, 5, convertCallback);
+            });
         }
     });
 }
-//专题图点击
-function mapRestList(){
-    $(".map_work>ul>li").click(function(){
-        $(".map_work>ul").hide();
-        $(".map_resList").show();
-    })
-}
-//返回
-function back(){
-    $(".map_work>ul").show();
-    $(".map_resList").hide();
-}
-//右侧功能界面切换
-function rightChange(){
-    $(".map_right_top>ul>li").click(function(){
-        var ins=$(this).index();
-        $(this).addClass("li_active").siblings().removeClass("li_active");
-        $(".map_con .map_con_div").eq(ins).show().siblings().hide();
-    })
+
+// 添加标记点
+function addMarker(point, nodeID) {
+    var marker = new BMap.Marker(point);  // 创建标记点
+    var icon = new BMap.Icon("../static/img/jiedian.png", new BMap.Size(30, 30));
+    marker.setIcon(icon);
+
+    marker.addEventListener("click", function () {
+        // 点击标记点时的操作，可以自定义
+        alert("事件：" + nodeID);
+    });
+    markers.push(marker);  // 将标记点添加到数组中
+    map.addOverlay(marker);  // 将标记点添加到地图中
 }

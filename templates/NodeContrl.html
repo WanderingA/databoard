@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>节点设置</title>
     <link rel="stylesheet" href="../static/css/base.css">
-    <link href="../static/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<!--    <link href="../static/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />-->
     <link rel="stylesheet" href="../static/js/bstable/css/bootstrap.min.css">
     <style>
         h2{
@@ -116,7 +116,8 @@
                         <h2>选择节点:</h2>
                         <div class="all_left">
                             {% for node in node_data %}
-                            <button type="button" class="btn btn-primary btn-lg my_bb" onclick="showNodeData('{{ node[0] }}')">{{ node[0] }}</button>
+<!--                            <button type="button" class="btn btn-primary btn-lg my_bb" onclick="showNodeData('{{ node[0] }}')">{{ node[0] }}</button>-->
+                            <button id="node-button-{{ node[0] }}" type="button" class="btn btn-primary btn-lg my_bb" onclick="showNodeData('{{ node[0] }}')">{{ node[0] }}</button>
                             {% endfor %}
                         </div>
                     </div>
@@ -140,7 +141,8 @@
         </div>
     </div>
 </div>
-<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>
+<!--<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>-->
+<script src="../static/js/jquery/jQuery-3.6.0.min.js"></script>
 <script src="../static/js/echarts-all.js"></script>
 <script src="../static/js/base.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
@@ -162,6 +164,34 @@
             char1(node.electricity);
             char2(node.space);
         }
+    }
+
+    function updateNodeData(nodeId) {
+        // Send an AJAX GET request to get updated data for the given node
+        fetch(`/get_node_data/${nodeId}`)
+            .then(response => response.json())
+            .then(data => {
+                const node = JSON.parse(data);
+                // Update pie charts with the received data
+                char1(node.electricity);
+                char2(node.space);
+                // Update the table with the received data
+                const tableRow = `
+                    <tr style="height: 30px">
+                        <td>${node.id}</td>
+                        <td>${node.status}</td>
+                        <td>${node.longitude}</td>
+                        <td>${node.latitude}</td>
+                        <td>${node.electricity}</td>
+                        <td>${node.space}</td>
+                        <td>${node.gps}</td>
+                        <td>${node.detector}</td>
+                        <td>${node.angle}</td>
+                    </tr>
+                `;
+                document.querySelector("#node-table tbody").innerHTML = tableRow;
+            })
+            .catch(error => console.error('Error fetching data:', error));
     }
 
     function char1(electricity) {

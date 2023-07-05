@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../static/js/bstable/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/js/jQueryPage/src/jquery.page.css">
     <link rel="stylesheet" href="../static/css/base.css">
-
 </head>
 <body>
 <!--顶部-->
@@ -48,42 +47,70 @@
                     <div class="table_t">
                         <div class="table_head">
                             <table class="table-striped">
-                                <thead><tr>
+                                <thead>
+                                <tr>
                                     <th>节点ID</th>
                                     <th>类别</th>
                                     <th>经度</th>
                                     <th>纬度</th>
+                                    <th>时间</th>
                                 </tr>
                                 </thead>
-                            </table>
-                        </div>
-                        <div class="table_body">
-                            <table class="table-striped">
-                                <tbody>
-                                <tr><td>1</td><td>人</td><td>134.232</td><td>98.412</td></tr>
-                                <tr><td>2</td><td>汽车</td><td>134.221</td><td>98.423</td></tr>
-                                <tr><td>3</td><td>履带车</td><td>134.422</td><td>98.432</td></tr>
-                                <tr><td>4</td><td>飞行器</td><td>134.123</td><td>98.414</td></tr>
-                                <tr><td>4</td><td>飞行器</td><td>134.123</td><td>98.414</td></tr>
-                                <tr><td>4</td><td>飞行器</td><td>134.123</td><td>98.414</td></tr>
+                                <!--                                <tbody id="table-body">  &lt;!&ndash;这里是表格内容&ndash;&gt;-->
+                                <tbody id="table-body">
+                                {% for node in node_allinfo %}
+                                <tr style="height: 30px">
+                                    <td>{{ node[0] }}</td>
+                                    <td>{{ node[1] }}</td>
+                                    <td>{{ node[2] }}</td>
+                                    <td>{{ node[3] }}</td>
+                                    <td>{{ node[4] }}</td>
+                                </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
 </div>
-<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>
+<!--<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>-->
+<script src="../static/js/jquery/jQuery-3.6.0.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>-->
 <script src="../static/js/base.js"></script>
 <script src="../static/js/echarts-all.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5ieMMexWmzB9jivTq6oCRX9j&callback"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WZ0A9ap4bojUPbNWBsGHcClAqwy8n242&callback"></script>
 <script src="../static/js/jQueryPage/src/jquery.page.js"></script>
 <script src="../static/js/map_control.js"></script>
 <script src="../static/js/bstable/js/bootstrap.min.js"></script>
+
+<script>
+    function refreshTable() {
+        $.ajax({
+            url: "/get_table_data",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                // 更新表格数据
+                var tableBody = $("#table-body");
+                tableBody.empty();
+                data[0].forEach(function(row) {
+                    var tr = $("<tr>");
+                    tr.append($("<td>").text(row[0]));
+                    tr.append($("<td>").text(row[1]));
+                    tr.append($("<td>").text(row[2]));
+                    tr.append($("<td>").text(row[3]));
+                    tr.append($("<td>").text(row[4]));
+                    tableBody.append(tr);
+                });
+            }
+        });
+    }
+    setInterval(refreshTable, 5000);
+</script>
 
 </body>
 </html>

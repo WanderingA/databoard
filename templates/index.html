@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../static/css/base.css">
     <link rel="stylesheet" href="../static/js/bstable/css/bootstrap.min.css">
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=WZ0A9ap4bojUPbNWBsGHcClAqwy8n242"></script>
+
 </head>
 <body>
 <!--顶部-->
@@ -80,9 +81,6 @@
             <div class="con_time left">
                 <img src="../static/img/info_6.png" class="left text01_img">
                 <div class="left time_div">
-                    <!--                    <p>运行时长(s)</p>-->
-                    <!--                    <p class="org">12356</p>-->
-
                     <p id="time"></p>
                     <script>
                         function getTime(){
@@ -111,17 +109,18 @@
         <div class="left div_any01">
             <div class="div_any_child">
                 <div class="div_any_title"><img src="../static/img/title_1.png">事件类型统计 </div>
-                <p id="char1" class="p_chart chart_container"></p>
+                <p id="char1" class="p_chart chart_container" data-chart-data="{{ chart_data }}"></p>
             </div>
             <div class="div_any_child">
-                <div class="div_any_title"><img src="../static/img/title_2.png">节点状态统计 </div>
-                <p id="char2" class="p_chart right"></p>
+                <div class="div_any_title"><img src="../static/img/title_2.png" >节点状态统计 </div>
+                <p id="char2" class="p_chart right" node_status="{{ status }}"></p>
             </div>
         </div>
         <div class="div_any02 left ">
             <div class="div_map_child">
                 <div class="div_any_title any_title_width"><img src="../static/img/title_3.png">地图 </div>
                 <div id="map_div"></div>
+
             </div>
         </div>
         <div class="right div_any01">
@@ -129,9 +128,9 @@
                 <div class="div_any_title"><img src="../static/img/title_4.png">硬件设备展示 </div>
                 <div class="button-container">
                     <div class="btn btn-primary my_bb1" id="button1" onmouseover="showImageAndText(1)" onmouseout="hideImageAndText(1)">无线节点地震仪</div>
-                    <div class="btn btn-primary my_bb1" id="button2" onmouseover="showImageAndText(2)" onmouseout="hideImageAndText(2)">无线节点地震仪</div>
-                    <div class="btn btn-primary my_bb1" id="button3" onmouseover="showImageAndText(3)" onmouseout="hideImageAndText(3)">无线节点地震仪</div>
-                    <div class="btn btn-primary my_bb1" id="button4" onmouseover="showImageAndText(4)" onmouseout="hideImageAndText(4)">无线节点地震仪</div>
+                    <div class="btn btn-primary my_bb1" id="button2" onmouseover="showImageAndText(2)" onmouseout="hideImageAndText(2)">充电箱</div>
+                    <div class="btn btn-primary my_bb1" id="button3" onmouseover="showImageAndText(3)" onmouseout="hideImageAndText(3)">无线模块</div>
+                    <div class="btn btn-primary my_bb1" id="button4" onmouseover="showImageAndText(4)" onmouseout="hideImageAndText(4)">应用现场</div>
                 </div>
                 <div id="imageAndTextContainer">
                     <!-- 这里将显示图片和介绍 -->
@@ -144,7 +143,8 @@
         </div>
     </div>
 </div>
-<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>
+<!--<script src="../static/js/jquery/jQuery-2.2.0.min.js"></script>-->
+<script src="../static/js/jquery/jQuery-3.6.0.min.js"></script>
 <script src="../static/js/echarts-all.js"></script>
 <script src="../static/js/base.js"></script>
 <script src="../static/js/index.js"></script>
@@ -160,19 +160,19 @@
 
         switch (buttonNumber) {
             case 1:
-                image = "../static/img/title_5.png";
+                image = "../static/img/node.png";
                 text = "无线节点地震仪";
                 break;
             case 2:
-                image = "../static/img/title_2.png";
+                image = "../static/img/power.png";
                 text = "无线节点地震仪";
                 break;
             case 3:
-                image = "../static/img/title_3.png";
+                image = "../static/img/net.png";
                 text = "无线节点地震仪";
                 break;
             case 4:
-                image = "../static/img/title_4.png";
+                image = "../static/img/node2.png";
                 text = "无线节点地震仪";
                 break;
             default:
@@ -181,11 +181,10 @@
         }
 
         imageAndTextContainer.innerHTML = `
-       <div class="image-text-container">
-       <img src="${image}" alt="图片">
-      <p>${text}</p>
-</div>
-
+        <div class="image-text-container">
+            <img src="${image}" alt="图片">
+            <p>${text}</p>
+        </div>
     `;
     }
 
@@ -193,6 +192,8 @@
         var imageAndTextContainer = document.getElementById("imageAndTextContainer");
         imageAndTextContainer.innerHTML = "";
     }
+
+
 </script>
 
 
